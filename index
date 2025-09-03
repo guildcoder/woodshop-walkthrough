@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Woodshop Walkthrough</title>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden; /* disables normal scrolling */
+    background: black;
+  }
+
+  #container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  #woodshop {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform-origin: center center;
+    transition: transform 0.25s ease-out;
+  }
+
+  .banner {
+    position: absolute;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 6px;
+    font-family: sans-serif;
+    cursor: pointer;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .banner.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .banner:hover {
+    transform: scale(1.1);
+  }
+</style>
+</head>
+<body>
+<div id="container">
+  <img id="woodshop" src="woodshop.jpg" alt="Woodshop">
+
+  <!-- Example banners -->
+  <div class="banner" data-minzoom="1.5" style="top:20%; left:25%;" onclick="alert('Tools!')">Tools</div>
+  <div class="banner" data-minzoom="2.0" style="top:60%; right:20%;" onclick="alert('Projects!')">Projects</div>
+  <div class="banner" data-minzoom="2.5" style="bottom:15%; left:40%;" onclick="alert('Gallery!')">Gallery</div>
+</div>
+
+<script>
+let zoom = 1;
+const minZoom = 1;
+const maxZoom = 4;
+
+window.addEventListener("wheel", e => {
+  e.preventDefault();
+
+  zoom += e.deltaY * -0.001;
+  zoom = Math.min(Math.max(minZoom, zoom), maxZoom);
+
+  document.getElementById("woodshop").style.transform = `scale(${zoom})`;
+
+  document.querySelectorAll(".banner").forEach(banner => {
+    let minZoom = parseFloat(banner.dataset.minzoom);
+    if (zoom >= minZoom) {
+      banner.classList.add("visible");
+    } else {
+      banner.classList.remove("visible");
+    }
+  });
+}, { passive: false });
+
+// Optional: block arrow keys, space, PgUp/PgDn from scrolling
+window.addEventListener("keydown", e => {
+  if (["ArrowUp","ArrowDown","PageUp","PageDown"," "].includes(e.key)) {
+    e.preventDefault();
+  }
+});
+</script>
+</body>
+</html>
