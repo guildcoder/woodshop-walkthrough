@@ -54,7 +54,7 @@
 </head>
 <body>
 <div id="container">
-  <img id="woodshop" src="woodshop.jpg" alt="Woodshop">
+  <img id="woodshop" src="woodshop.png" alt="Woodshop">
 
   <!-- Example banners -->
   <div class="banner" data-minzoom="1.5" style="top:20%; left:25%;" onclick="alert('Tools!')">Tools</div>
